@@ -1,28 +1,20 @@
-name: Build
+name: Java CI
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Check out code
         uses: actions/checkout@v2
 
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: ''
+          distribution: 'temurin'  # Укажите дистрибутив: 'adopt', 'zulu', 'temurin', 'openjdk', и т.д.
 
       - name: Build with Gradle
         run: ./gradlew build
-
-      - name: Checkstyle
-        run: ./gradlew checkstyleMain checkstyleTest
