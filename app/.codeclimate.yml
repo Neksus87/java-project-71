@@ -1,0 +1,6 @@
+version: "2"
+plugins:
+  test_report:
+    enabled: true
+  json:
+    enabled: true

@@ -24,3 +24,7 @@ tasks.test {
 tasks.getByName("run", JavaExec::class) {
     standardInput = System.`in`
 }
+
+checkstyle {
+    configFile = file("config/checkstyle/checkstyle.xml")
+}

@@ -13,6 +13,15 @@ public class App implements Runnable {
     @Parameters(paramLabel = "<file1> <file2>", description = "The two configuration files to compare.")
     private String[] files;
 
+    public App(String[] files) {
+
+        this.files = files;
+    }
+
+    public App() {
+
+    }
+
     public static void main(String[] args) {
         CommandLine.run(new App(), args);
     }
