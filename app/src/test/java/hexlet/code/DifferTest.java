@@ -20,7 +20,7 @@ public class DifferTest {
         - timeout: 50
         + timeout: 20
         + verbose: true
-        """;
+            """;
 
         String actualDiff = Differ.generate(data1, data2);
 

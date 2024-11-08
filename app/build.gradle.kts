@@ -16,6 +16,22 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2") // Убедитесь, что только одна версия.
     implementation("info.picocli:picocli:4.6.1")
+
+    // If using JUnit Jupiter
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
+
+    // If using JUnit Vintage
+    testCompileOnly ("junit:junit:4.13.2")
+    testRuntimeOnly ("org.junit.vintage:junit-vintage-engine:5.9.2")
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
+
+    // If using JUnit 4
+    testImplementation ("junit:junit:4.13.2")
+
+    // If using JUnit 3
+    testCompileOnly ("junit:junit:3.8.2")
+    testRuntimeOnly ("junit:junit:4.13.2")
 }
 
 tasks.test {
