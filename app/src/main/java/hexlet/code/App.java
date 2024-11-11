@@ -3,7 +3,6 @@ package hexlet.code;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-
 import java.util.Map;
 
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
@@ -11,19 +10,12 @@ import java.util.Map;
 public class App implements Runnable {
 
     @Parameters(paramLabel = "<file1> <file2>", description = "The two configuration files to compare.")
+    @SuppressWarnings("unused") // Подавляем предупреждение о неиспользуемом поле
     private String[] files;
 
-    public App(String[] files) {
-
-        this.files = files;
-    }
-
-    public App() {
-
-    }
-
     public static void main(String[] args) {
-        CommandLine.run(new App(), args);
+        int exitCode = new CommandLine(new App()).execute(args);
+        System.exit(exitCode);
     }
 
     @Override
