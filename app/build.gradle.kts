@@ -42,7 +42,9 @@ tasks.test {
 tasks.getByName("run", JavaExec::class) {
     standardInput = System.`in`
 }
-
+tasks.named<JavaExec>("run") {
+    args("src/test/resources/file1.json", "src/test/resources/file2.json")
+}
 checkstyle {
     configFile = file("config/checkstyle/checkstyle.xml")
 }
