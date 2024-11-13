@@ -1,6 +1,6 @@
-version: "2"
+version: '3'
 plugins:
-  test_report:
+  jacoco:
     enabled: true
-  json:
-    enabled: true
+    channel: coverage
+    path: build/reports/jacoco/test/jacocoTestReport.xml

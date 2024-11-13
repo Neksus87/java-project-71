@@ -14,7 +14,13 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'  # Укажите дистрибутив: 'adopt', 'zulu', 'temurin', 'openjdk', и т.д.
+          distribution: 'temurin'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: List files in project directory
+        run: ls -la
 
       - name: Build with Gradle
         run: ./gradlew build
