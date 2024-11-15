@@ -17,6 +17,7 @@ dependencies {
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.18.1")
     implementation ("com.fasterxml.jackson.core:jackson-core:2.18.1")
     implementation ("com.fasterxml.jackson.core:jackson-annotations:2.18.1")
+    implementation ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.18.1")
     implementation ("info.picocli:picocli:4.7.6")
 
     // If using JUnit Jupiter
@@ -34,6 +35,7 @@ dependencies {
     // If using JUnit 3
     testCompileOnly ("junit:junit:3.8.2")
     testRuntimeOnly ("junit:junit:4.13.2")
+
 }
 
 tasks.test {
