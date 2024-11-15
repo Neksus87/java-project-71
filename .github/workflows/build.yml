@@ -16,11 +16,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: List files in project directory for debug
-        run: ls -la $GITHUB_WORKSPACE/app
-
       - name: Make gradlew executable
-        run: chmod +x $GITHUB_WORKSPACE/app/gradlew
+        run: chmod +x app/gradlew
 
       - name: Build with Gradle
-        run: $GITHUB_WORKSPACE/app/gradlew build
+        run: ./gradlew build
+        working-directory: app
