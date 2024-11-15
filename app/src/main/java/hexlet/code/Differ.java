@@ -15,7 +15,7 @@ public class Differ {
         if (!file.exists() || !file.isFile()) {
             throw new Exception("File does not exist or is not a valid file: " + filePath);
         }
-        return OBJECT_MAPPER.readValue(file, new TypeReference<Map<String, Object>>() {});
+        return OBJECT_MAPPER.readValue(file, new TypeReference<Map<String, Object>>() { });
     }
 
     public static String generate(Map<String, Object> data1, Map<String, Object> data2) {
