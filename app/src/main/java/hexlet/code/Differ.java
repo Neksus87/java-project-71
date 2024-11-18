@@ -1,21 +1,11 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Differ {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper(new YAMLFactory());
-
     public static Map<String, Object> getData(String filePath) throws Exception {
-        File file = new File(filePath);
-        if (!file.exists() || !file.isFile()) {
-            throw new Exception("File does not exist or is not a valid file: " + filePath);
-        }
-        return OBJECT_MAPPER.readValue(file, new TypeReference<Map<String, Object>>() { });
+        return Parser.parse(filePath);
     }
 
     public static String generate(Map<String, Object> data1, Map<String, Object> data2) {
