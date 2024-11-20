@@ -2,37 +2,35 @@ package hexlet.code;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.util.Map;
+import java.util.concurrent.Callable;
 
-@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
+@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 0.1",
         description = "Compares two configuration files and shows a difference.")
-public class App implements Runnable {
+class App implements Callable<Integer> {
+    private static final int SUCCESS_EXIT_CODE = 0;
 
-    @Parameters(paramLabel = "<file1> <file2>", description = "The two configuration files to compare.")
-    private String[] files;
+    @Parameters(index = "0", paramLabel = "filepath1", description = "path to first file")
+    private String filePath1;
 
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new App()).execute(args);
-        System.exit(exitCode);
-    }
+    @Parameters(index = "1", paramLabel = "filepath2", description = "path to the second file")
+    private String filePath2;
+
+    @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish",
+            description = "output format [default: ${DEFAULT-VALUE}]")
+    private String format;
 
     @Override
-    public void run() {
-        if (files == null || files.length != 2) {
-            System.err.println("Please provide exactly two files to compare.");
-            CommandLine.usage(this, System.err);
-            return;
-        }
+    public Integer call() throws Exception {
+        String diff = Differ.generate(filePath1, filePath2, format);
+        System.out.println(diff);
+        return SUCCESS_EXIT_CODE;
+    }
 
-        try {
-            Map<String, Object> data1 = Differ.getData(files[0]);
-            Map<String, Object> data2 = Differ.getData(files[1]);
-            String diff = Differ.generate(data1, data2);
-            System.out.println(diff);
-        } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
-        }
+    public static void main(String... args) {
+        int exitCode = new CommandLine(new App()).execute(args);
+        System.exit(exitCode);
     }
 }

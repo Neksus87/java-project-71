@@ -1,35 +1,32 @@
 package hexlet.code;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class Differ {
-    public static Map<String, Object> getData(String filePath) throws Exception {
-        return Parser.parse(filePath);
+
+    public static String generate(String filePath1, String filePath2) throws IOException {
+        return generate(filePath1, filePath2, "stylish");
     }
 
-    public static String generate(Map<String, Object> data1, Map<String, Object> data2) {
-        StringBuilder diffBuilder = new StringBuilder();
-        TreeMap<String, Object> sortedKeys = new TreeMap<>();
-        sortedKeys.putAll(data1);
-        sortedKeys.putAll(data2);
+    public static String generate(String filePath1, String filePath2, String formatName) throws IOException {
+        String file1Format = getFileFormat(filePath1);
+        String file2Format = getFileFormat(filePath2);
 
-        for (String key : sortedKeys.keySet()) {
-            Object value1 = data1.get(key);
-            Object value2 = data2.get(key);
+        Map<String, Object> map1 = Parser.parce(filePath1, file1Format);
+        Map<String, Object> map2 = Parser.parce(filePath2, file2Format);
 
-            if (value1 == null) {
-                diffBuilder.append(String.format("+ %s: %s%n", key, value2));
-            } else if (value2 == null) {
-                diffBuilder.append(String.format("- %s: %s%n", key, value1));
-            } else if (!value1.equals(value2)) {
-                diffBuilder.append(String.format("- %s: %s%n", key, value1));
-                diffBuilder.append(String.format("+ %s: %s%n", key, value2));
-            } else {
-                diffBuilder.append(String.format("  %s: %s%n", key, value1));
-            }
-        }
+        Map<String, List<Object>> diffMap = FindDiff.getDifference(map1, map2);
 
-        return diffBuilder.toString();
+        String result = Formatter.constructFormat(map1, map2, diffMap, formatName);
+
+        return result;
+    }
+
+    private static String getFileFormat(String filePath) {
+        int dotIndex = filePath.lastIndexOf(".");
+
+        return dotIndex > 0 ? filePath.substring(dotIndex + 1) : "";
     }
 }

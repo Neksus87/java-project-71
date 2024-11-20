@@ -1,19 +1,48 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import java.io.File;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class Parser {
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper(new YAMLFactory());
-
-    public static Map<String, Object> parse(String filePath) throws Exception {
-        File file = new File(filePath);
-        if (!file.exists() || !file.isFile()) {
-            throw new Exception("File does not exist or is not a valid file: " + filePath);
+    public static Map<String, Object> parse(String filePath, String fileFormat) throws IOException {
+        switch (fileFormat) {
+            case "json":
+                return getDataJson(filePath);
+            case "yml", "yaml":
+                return getDataYaml(filePath);
+            default:
+                throw new IOException("Unknown file extension! -> " + fileFormat);
         }
-        return OBJECT_MAPPER.readValue(file, new TypeReference<Map<String, Object>>() { });
+    }
+
+    public static Path getAbsolutePath(String filePath) {
+        return Paths.get(filePath).toAbsolutePath().normalize();
+    }
+
+    private static Map<String, Object> getDataJson(String filePath) throws IOException {
+        String fileContent = parseFile(filePath);
+        ObjectMapper om = new ObjectMapper();
+        return om.readValue(fileContent, new TypeReference<>() {});
+    }
+
+    private static Map<String, Object> getDataYaml(String filePath) throws IOException {
+        String fileContent = parseFile(filePath);
+        ObjectMapper om = new YAMLMapper();
+        return om.readValue(fileContent, new TypeReference<>() {});
+    }
+
+    private static String parseFile(String filePath) throws IOException {
+        return Files.readString(getAbsolutePath(filePath));
+    }
+
+    public static Map<String, Object> parce(String filePath1, String file1Format) {
+        return Map.of();
     }
 }
