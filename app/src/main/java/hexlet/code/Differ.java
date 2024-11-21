@@ -1,32 +1,39 @@
 package hexlet.code;
 
-import java.io.IOException;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class Differ {
+    public static String generate(String firstFilepath, String secondFilepath, String formatName) throws Exception {
+        Map<String, Object> parsedFirstFile = getData(firstFilepath);
+        Map<String, Object> parsedSecondFile = getData(secondFilepath);
+        Map<String, Object> differences = Comparison.genDiff(parsedFirstFile, parsedSecondFile);
 
-    public static String generate(String filePath1, String filePath2) throws IOException {
-        return generate(filePath1, filePath2, "stylish");
+        return Formatter.format(differences, formatName);
     }
 
-    public static String generate(String filePath1, String filePath2, String formatName) throws IOException {
-        String file1Format = getFileFormat(filePath1);
-        String file2Format = getFileFormat(filePath2);
-
-        Map<String, Object> map1 = Parser.parce(filePath1, file1Format);
-        Map<String, Object> map2 = Parser.parce(filePath2, file2Format);
-
-        Map<String, List<Object>> diffMap = FindDiff.getDifference(map1, map2);
-
-        String result = Formatter.constructFormat(map1, map2, diffMap, formatName);
-
-        return result;
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        return generate(filepath1, filepath2, "stylish");
     }
 
-    private static String getFileFormat(String filePath) {
-        int dotIndex = filePath.lastIndexOf(".");
+    private static Map<String, Object> getData(String filePath) throws Exception {
+        Path fullPath = getFullPath(filePath);
+        if (!Files.exists(fullPath)) {
+            throw new Exception("File '" + fullPath + "' does not exist");
+        }
+        String content = Files.readString(fullPath);
+        String dataFormat = getDataFormat(filePath);
+        return Parser.parse(content, dataFormat);
+    }
 
-        return dotIndex > 0 ? filePath.substring(dotIndex + 1) : "";
+    private static Path getFullPath(String filePath) {
+        return Paths.get(filePath).toAbsolutePath().normalize();
+    }
+
+    private static String getDataFormat(String filePath) {
+        int index = filePath.lastIndexOf('.');
+        return index > 0 ? filePath.substring(index + 1) : "";
     }
 }

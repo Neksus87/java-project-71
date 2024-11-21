@@ -2,47 +2,26 @@ package hexlet.code;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> parse(String filePath, String fileFormat) throws IOException {
-        switch (fileFormat) {
-            case "json":
-                return getDataJson(filePath);
-            case "yml", "yaml":
-                return getDataYaml(filePath);
-            default:
-                throw new IOException("Unknown file extension! -> " + fileFormat);
-        }
+    private static Map<String, Object> parseYaml(String content) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        return objectMapper.readValue(content, new TypeReference<>() { });
     }
 
-    public static Path getAbsolutePath(String filePath) {
-        return Paths.get(filePath).toAbsolutePath().normalize();
+    private static Map<String, Object> parseJson(String content) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(content, new TypeReference<>() { });
     }
 
-    private static Map<String, Object> getDataJson(String filePath) throws IOException {
-        String fileContent = parseFile(filePath);
-        ObjectMapper om = new ObjectMapper();
-        return om.readValue(fileContent, new TypeReference<>() {});
-    }
-
-    private static Map<String, Object> getDataYaml(String filePath) throws IOException {
-        String fileContent = parseFile(filePath);
-        ObjectMapper om = new YAMLMapper();
-        return om.readValue(fileContent, new TypeReference<>() {});
-    }
-
-    private static String parseFile(String filePath) throws IOException {
-        return Files.readString(getAbsolutePath(filePath));
-    }
-
-    public static Map<String, Object> parce(String filePath1, String file1Format) {
-        return Map.of();
+    public static Map<String, Object> parse(String content, String dataFormat) throws Exception {
+        return switch (dataFormat) {
+            case "yml", "yaml" -> parseYaml(content);
+            case "json" -> parseJson(content);
+            default -> throw new Exception("Unknown format: '" + dataFormat + "'");
+        };
     }
 }
