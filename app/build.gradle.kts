@@ -1,13 +1,13 @@
 plugins {
     id("application")
     id("checkstyle")
-    // Удален плагин JaCoCo
     id("com.adarshr.test-logger") version "3.2.0"
 
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
     id("com.github.ben-manes.versions") version "0.48.0"
 
     id("io.freefair.lombok") version "8.6"
+    kotlin("jvm") version "2.0.21"
 }
 
 application {
@@ -32,31 +32,17 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.25.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    // Удален JaCoCo
-    //testImplementation("org.jacoco:org.jacoco.agent:0.8.12")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     annotationProcessor("info.picocli:picocli-codegen:4.7.5")
+    implementation(kotlin("stdlib-jdk8"))
 }
-
-//tasks.withType<Test>() {
-//    finalizedBy(tasks.jacocoTestReport) // Удалены все упоминания о JaCoCo
-//    useJUnitPlatform()
-//    testLogging {
-//        showStandardStreams = true
-//    }
-//}
 
 tasks.compileJava {
     options.release = 17
     options.compilerArgs.add("-Aproject=${project.group}/${project.name}")
 }
-
-// Удалены настройки report'ов для JaCoCo
-//tasks.jacocoTestReport {
-//    reports {
-//        dependsOn(tasks.test)
-//        xml.required.set(true)
-//    }
-//}
+kotlin {
+    jvmToolchain(21)
+}
