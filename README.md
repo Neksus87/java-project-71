@@ -1,7 +1,9 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Neksus87/java-project-71/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Neksus87/java-project-71/actions)
+[![Java CI](https://github.com/Neksus87/java-project-71/actions/workflows/build.yml/badge.svg)](https://github.com/Neksus87/java-project-71/actions/workflows/build.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c6dfcce2572992591906/maintainability)](https://codeclimate.com/github/Neksus87/java-project-71/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c6dfcce2572992591906/test_coverage)](https://codeclimate.com/github/Neksus87/java-project-71/test_coverage)
+
 
 ### Asciinema links:
 # Project 71 step 4 demonstration "Arguments and options"
