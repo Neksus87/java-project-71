@@ -10,7 +10,6 @@ public class Differ {
         Map<String, Object> parsedFirstFile = getData(firstFilepath);
         Map<String, Object> parsedSecondFile = getData(secondFilepath);
         Map<String, Object> differences = Comparison.genDiff(parsedFirstFile, parsedSecondFile);
-
         return Formatter.format(differences, formatName);
     }
 

@@ -13,7 +13,6 @@ public final class DifferTest {
     public void generateTest(String format) throws Exception {
         String filePath1 = getFixturePath("file1." + format).toString();
         String filePath2 = getFixturePath("file2." + format).toString();
-
         assertThat(Differ.generate(filePath1, filePath2))
                 .isEqualTo(readFixture("stylish.txt"));
         assertThat(Differ.generate(filePath1, filePath2, "json"))
@@ -23,12 +22,10 @@ public final class DifferTest {
         assertThat(Differ.generate(filePath1, filePath2, "plain"))
                 .isEqualTo(readFixture("plain.txt"));
     }
-
     private static Path getFixturePath(String fileName) {
         return Paths.get("src", "test", "resources", fileName)
                 .toAbsolutePath().normalize();
     }
-
     private static String readFixture(String fileName) throws Exception {
         Path filePath = getFixturePath(fileName);
         return Files.readString(filePath);
