@@ -4,9 +4,9 @@ plugins {
     id("com.adarshr.test-logger") version "3.2.0"
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
     id("com.github.ben-manes.versions") version "0.48.0"
-
     id("io.freefair.lombok") version "8.6"
     kotlin("jvm") version "2.0.21"
+    id("jacoco")
 }
 
 application {
@@ -22,7 +22,6 @@ repositories {
 
 dependencies {
     implementation("info.picocli:picocli:4.7.5")
-
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("ch.qos.logback:logback-classic:1.4.12")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
@@ -42,6 +41,22 @@ tasks.compileJava {
     options.release = 17
     options.compilerArgs.add("-Aproject=${project.group}/${project.name}")
 }
+
 kotlin {
     jvmToolchain(21)
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+}
+
+tasks.test {
+    finalizedBy(tasks.named("jacocoTestReport"))
 }
