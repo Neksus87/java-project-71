@@ -4,6 +4,7 @@ plugins {
     id("com.adarshr.test-logger") version "3.2.0"
     id("se.patrikerdes.use-latest-versions") version "0.2.18"
     id("com.github.ben-manes.versions") version "0.48.0"
+
     id("io.freefair.lombok") version "8.6"
     kotlin("jvm") version "2.0.21"
 }
@@ -21,11 +22,11 @@ repositories {
 
 dependencies {
     implementation("info.picocli:picocli:4.7.5")
+
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("ch.qos.logback:logback-classic:1.4.12")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2")
-    implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("org.assertj:assertj-core:3.25.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
@@ -34,6 +35,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     annotationProcessor("info.picocli:picocli-codegen:4.7.5")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.compileJava {
