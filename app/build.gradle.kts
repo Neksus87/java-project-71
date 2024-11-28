@@ -6,6 +6,7 @@ plugins {
     id("com.github.ben-manes.versions") version "0.48.0"
     id("io.freefair.lombok") version "8.6"
     kotlin("jvm") version "2.0.21"
+    id("jacoco") // Добавлен плагин JaCoCo
 }
 
 application {
@@ -34,7 +35,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 
     annotationProcessor("info.picocli:picocli-codegen:4.7.5")
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
@@ -45,6 +45,20 @@ tasks.compileJava {
     options.release = 17
     options.compilerArgs.add("-Aproject=${project.group}/${project.name}")
 }
+
 kotlin {
     jvmToolchain(21)
+}
+
+// Настройка JaCoCo
+jacoco {
+    toolVersion = "0.8.12" // Укажите версию JaCoCo
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // Убедитесь, что задачи тестирования выполнены перед созданием отчета
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
