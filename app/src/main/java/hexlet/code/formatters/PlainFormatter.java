@@ -1,59 +1,57 @@
 package hexlet.code.formatters;
 
-import hexlet.code.Comparison.Status;
-import hexlet.code.Comparison;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import static java.lang.String.format;
 
 public class PlainFormatter {
-    public static String render(Map<String, Object> differences) throws Exception {
+    public static String formatPlain(List<Map<String, Object>> data) {
         StringBuilder result = new StringBuilder();
-        for (Map.Entry<String, Object> entry : differences.entrySet()) {
-            String key = entry.getKey();
-            Status value = (Status) entry.getValue();
-            String status = value.getStatusName();
-            switch (status) {
-                case Comparison.CHANGED -> {
-                    String oldValue = stringify(value.getOldValue());
-                    String newValue = stringify(value.getNewValue());
-                    String name = stringify(key);
-                    result.append(format("Property %s was updated. From %s to %s",
-                                    name, oldValue, newValue))
-                            .append("\n");
-                }
-                case Comparison.ADDED -> {
-                    String newValue = stringify(value.getNewValue());
-                    String name = stringify(key);
-                    result.append(format("Property %s was added with value: %s",
-                                    name, newValue))
-                            .append("\n");
-                }
-                case Comparison.DELETED -> {
-                    String name = stringify(key);
-                    result.append(format("Property %s was removed", name))
-                            .append("\n");
-                }
-                case Comparison.UNCHANGED -> {
-                    continue;
-                }
-                default -> {
-                    throw new Exception("Unknown status: '" + status + "'");
-                }
+        data.forEach((value) -> {
+            try {
+                result.append(getLine(value));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        }
-        return result.toString().trim();
+        });
+
+        return result.toString();
     }
 
-    private static String stringify(Object value) {
-        if (value == null) {
-            return "null";
+    public static String getLine(Map<String, Object> data) throws IOException {
+        return switch (data.get("status").toString()) {
+            case "added" -> "Property '"
+                    + data.get("key")
+                    + "' was added with value: "
+                    + complexValueToString(data.get("value"))
+                    + "\n";
+            case "deleted" -> "Property '" + data.get("key") + "' was removed" + "\n";
+            case "unchanged" -> "";
+            case "changed" -> "Property '"
+                    + data.get("key")
+                    + "' was updated. From "
+                    + complexValueToString(data.get("oldValue"))
+                    + " to "
+                    + complexValueToString(data.get("newValue"))
+                    + "\n";
+
+            default -> throw new IOException(" ");
+        };
+    }
+
+    public static String complexValueToString(Object value) {
+        if (value instanceof Arrays || value instanceof List<?> || value instanceof Map<?, ?>) {
+            return "[complex value]";
+        }
+        if (value instanceof Boolean) {
+            return value.toString();
         }
         if (value instanceof String) {
             return "'" + value + "'";
         }
-        if (value instanceof Map || value instanceof List) {
-            return "[complex value]";
+        if (value == null) {
+            return "null";
         }
         return value.toString();
     }

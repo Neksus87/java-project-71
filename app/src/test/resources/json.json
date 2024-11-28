@@ -1,80 +1,72 @@
-{
-  "chars1" : {
-    "statusName" : "unchanged",
-    "oldValue" : [ "a", "b", "c" ],
-    "newValue" : null
-  },
-  "chars2" : {
-    "statusName" : "changed",
-    "oldValue" : [ "d", "e", "f" ],
-    "newValue" : false
-  },
-  "checked" : {
-    "statusName" : "changed",
-    "oldValue" : false,
-    "newValue" : true
-  },
-  "default" : {
-    "statusName" : "changed",
-    "oldValue" : null,
-    "newValue" : [ "value1", "value2" ]
-  },
-  "id" : {
-    "statusName" : "changed",
-    "oldValue" : 45,
-    "newValue" : null
-  },
-  "key1" : {
-    "statusName" : "deleted",
-    "oldValue" : "value1",
-    "newValue" : null
-  },
-  "key2" : {
-    "statusName" : "added",
-    "oldValue" : null,
-    "newValue" : "value2"
-  },
-  "numbers1" : {
-    "statusName" : "unchanged",
-    "oldValue" : [ 1, 2, 3, 4 ],
-    "newValue" : null
-  },
-  "numbers2" : {
-    "statusName" : "changed",
-    "oldValue" : [ 2, 3, 4, 5 ],
-    "newValue" : [ 22, 33, 44, 55 ]
-  },
-  "numbers3" : {
-    "statusName" : "deleted",
-    "oldValue" : [ 3, 4, 5 ],
-    "newValue" : null
-  },
-  "numbers4" : {
-    "statusName" : "added",
-    "oldValue" : null,
-    "newValue" : [ 4, 5, 6 ]
-  },
-  "obj1" : {
-    "statusName" : "added",
-    "oldValue" : null,
-    "newValue" : {
-      "nestedKey" : "value",
-      "isNested" : true
-    }
-  },
-  "setting1" : {
-    "statusName" : "changed",
-    "oldValue" : "Some value",
-    "newValue" : "Another value"
-  },
-  "setting2" : {
-    "statusName" : "changed",
-    "oldValue" : 200,
-    "newValue" : 300
-  },
-  "setting3" : {
-    "statusName" : "changed",
-    "oldValue" : true,
-    "newValue" : "none"
+[ {
+  "status" : "unchanged",
+  "key" : "chars1",
+  "value" : [ "a", "b", "c" ]
+}, {
+  "status" : "changed",
+  "key" : "chars2",
+  "newValue" : false,
+  "oldValue" : [ "d", "e", "f" ]
+}, {
+  "status" : "changed",
+  "key" : "checked",
+  "newValue" : true,
+  "oldValue" : false
+}, {
+  "status" : "changed",
+  "key" : "default",
+  "newValue" : [ "value1", "value2" ],
+  "oldValue" : null
+}, {
+  "status" : "changed",
+  "key" : "id",
+  "newValue" : null,
+  "oldValue" : 45
+}, {
+  "status" : "deleted",
+  "key" : "key1",
+  "value" : "value1"
+}, {
+  "status" : "added",
+  "key" : "key2",
+  "value" : "value2"
+}, {
+  "status" : "unchanged",
+  "key" : "numbers1",
+  "value" : [ 1, 2, 3, 4 ]
+}, {
+  "status" : "changed",
+  "key" : "numbers2",
+  "newValue" : [ 22, 33, 44, 55 ],
+  "oldValue" : [ 2, 3, 4, 5 ]
+}, {
+  "status" : "deleted",
+  "key" : "numbers3",
+  "value" : [ 3, 4, 5 ]
+}, {
+  "status" : "added",
+  "key" : "numbers4",
+  "value" : [ 4, 5, 6 ]
+}, {
+  "status" : "added",
+  "key" : "obj1",
+  "value" : {
+    "nestedKey" : "value",
+    "isNested" : true
   }
-}
+}, {
+  "status" : "changed",
+  "key" : "setting1",
+  "newValue" : "Another value",
+  "oldValue" : "Some value"
+}, {
+  "status" : "changed",
+  "key" : "setting2",
+  "newValue" : 300,
+  "oldValue" : 200
+}, {
+  "status" : "changed",
+  "key" : "setting3",
+  "newValue" : "none",
+  "oldValue" : true
+} ]

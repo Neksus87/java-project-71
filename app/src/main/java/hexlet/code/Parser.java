@@ -1,26 +1,34 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Parser {
-    private static Map<String, Object> parseYaml(String content) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        return objectMapper.readValue(content, new TypeReference<>() { });
-    }
-
-    private static Map<String, Object> parseJson(String content) throws Exception {
+    public static Map<String, Object> parseJson(String fileData) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(content, new TypeReference<>() { });
+        return objectMapper.readValue(fileData, new TypeReference<>() { });
     }
 
-    public static Map<String, Object> parse(String content, String dataFormat) throws Exception {
-        return switch (dataFormat) {
-            case "yml", "yaml" -> parseYaml(content);
-            case "json" -> parseJson(content);
-            default -> throw new Exception("Unknown format: '" + dataFormat + "'");
+    public static Map<String, Object> parseYAML(String fileData) throws JsonProcessingException {
+        ObjectMapper mapper = new YAMLMapper();
+        return mapper.readValue(fileData, new TypeReference<>() { });
+    }
+
+    public static Map<String, Object> parse(String fileData, String fileFormat) throws IOException {
+        if (Objects.equals(fileData, "")) {
+            return new HashMap<>();
+        }
+        return switch (fileFormat) {
+            case "json" -> parseJson(fileData);
+            case "yml", "yaml" -> parseYAML(fileData);
+            default -> throw new IOException(fileFormat + " wrong file format");
         };
     }
 }

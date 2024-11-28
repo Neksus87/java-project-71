@@ -2,37 +2,41 @@ package hexlet.code;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 public class Differ {
-    public static String generate(String firstFilepath, String secondFilepath, String formatName) throws Exception {
-        Map<String, Object> parsedFirstFile = getData(firstFilepath);
-        Map<String, Object> parsedSecondFile = getData(secondFilepath);
-        Map<String, Object> differences = Comparison.genDiff(parsedFirstFile, parsedSecondFile);
-        return Formatter.format(differences, formatName);
+    public static String generate(String filepath1, String filepath2, String outputFormat) throws Exception {
+
+        String fileData1 = getData(filepath1);
+        String fileData2 = getData(filepath2);
+
+        var fileFormat1 = getFileFormat(filepath1);
+        var fileFormat2 = getFileFormat(filepath2);
+
+        Map<String, Object> keysAndValuesFile1 = Parser.parse(fileData1, fileFormat1);
+        Map<String, Object> keysAndValuesFile2 = Parser.parse(fileData2, fileFormat2);
+
+        var result = Comparison.genDiff(keysAndValuesFile1, keysAndValuesFile2);
+
+        return Formatter.setResultFormat(result, outputFormat).trim();
     }
 
     public static String generate(String filepath1, String filepath2) throws Exception {
         return generate(filepath1, filepath2, "stylish");
     }
 
-    private static Map<String, Object> getData(String filePath) throws Exception {
-        Path fullPath = getFullPath(filePath);
-        if (!Files.exists(fullPath)) {
-            throw new Exception("File '" + fullPath + "' does not exist");
+    public static String getData(String pathString) throws Exception {
+        Path path = Path.of(pathString);
+        path.toAbsolutePath().normalize();
+
+        if (!Files.exists(path)) {
+            throw new Exception("File '" + path + "' does not exist");
         }
-        String content = Files.readString(fullPath);
-        String dataFormat = getDataFormat(filePath);
-        return Parser.parse(content, dataFormat);
+        return Files.readString(path);
     }
 
-    private static Path getFullPath(String filePath) {
-        return Paths.get(filePath).toAbsolutePath().normalize();
-    }
-
-    private static String getDataFormat(String filePath) {
-        int index = filePath.lastIndexOf('.');
-        return index > 0 ? filePath.substring(index + 1) : "";
+    public static String getFileFormat(String filePath) {
+        String[] result = filePath.split("\\.");
+        return result[result.length - 1];
     }
 }
