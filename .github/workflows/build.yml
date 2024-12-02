@@ -1,6 +1,8 @@
 name: Java CI
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
@@ -28,6 +30,7 @@ jobs:
 
       - name: Upload Coverage to Code Climate
         run: |
-          curl -X POST -F 'file=@app/build/reports/jacoco/test/jacocoTestReport.xml' https://codeclimate.com/test_reports
-        env:
-          CODECLIMATE_REPO_TOKEN: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+          curl -X POST -F 'file=@app/build/reports/jacoco/test/jacocoTestReport.xml' \
+          -H 'Content-Type: multipart/form-data' \
+          -H 'Authorization: Token ${{ secrets.CODECLIMATE_REPO_TOKEN }}' \
+          https://api.codeclimate.com/v1/test_reports
