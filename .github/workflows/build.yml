@@ -21,7 +21,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.7
+          gradle-version: 8.8
 
       - name: Make gradlew executable
         run: chmod +x app/gradlew
@@ -34,12 +34,12 @@ jobs:
         run: ./gradlew test
         working-directory: app
 
+      - name: Build and run coverage report
+        run: ./gradlew jacocoTestReport
+        working-directory: app
+
       - name: List JaCoCo report directory
         run: ls -la app/build/reports/jacoco/test
-
-      - name: Build and run coverage report
-        run: ./gradlew build jacocoTestReport
-        working-directory: app
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v9.0.0
